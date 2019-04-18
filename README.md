@@ -25,3 +25,9 @@ Host: localhost:9090/upload?bucket-name=created-bucket-api
 
 Content-type: multipart/form-data
 ```
+
+Download object from bucket:
+```sh
+GET / HTTP/1.1
+Host: localhost:9090/download?bucket-name=created-bucket-api&object-key=application.properties
+```
