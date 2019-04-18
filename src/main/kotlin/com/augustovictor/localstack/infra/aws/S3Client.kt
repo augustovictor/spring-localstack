@@ -1,4 +1,4 @@
-package com.augustovictor.localstack
+package com.augustovictor.localstack.infra.aws
 
 import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.s3.AmazonS3
