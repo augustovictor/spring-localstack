@@ -1,12 +1,15 @@
 package com.augustovictor.localstack
 
 import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectListing
+import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import java.net.URL
 
 @RestController
 class FileManagerController(private val amazonS3: AmazonS3) {
@@ -30,6 +33,17 @@ class FileManagerController(private val amazonS3: AmazonS3) {
             @RequestParam("bucket-name") bucketName: String,
             @RequestParam("file") file: MultipartFile
     ) {
-        amazonS3.putObject(bucketName, file.originalFilename, file.inputStream, null)
+        val putObjectRequest = PutObjectRequest(bucketName, file.originalFilename, file.inputStream, null)
+        putObjectRequest.cannedAcl = CannedAccessControlList.PublicRead
+
+        amazonS3.putObject(putObjectRequest)
+    }
+
+    @GetMapping("/download")
+    fun downloadFile(
+            @RequestParam("bucket-name") bucketName: String,
+            @RequestParam("object-key") objectKey: String
+    ): String {
+        return amazonS3.getUrl(bucketName, objectKey).toExternalForm()
     }
 }
