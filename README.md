@@ -4,6 +4,11 @@ Running localstack:
 ```sh
 SERVICES=s3 docker-compose -f docker-compose.localstack.yml up -d
 ```
+On mac:
+```sh
+TMPDIR=/private$TMPDIR SERVICES=s3 docker-compose -f docker-compose.localstack.yml up -d
+```
+
 
 
 Create bucket:
