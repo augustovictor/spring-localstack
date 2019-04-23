@@ -3,12 +3,16 @@ Feature: S3 buckets should be properly formatted
     As engineers
     We'll enforce proper naming strategies
 
-Scenario: S3 acl
+Scenario Outline: S3 acl
     Given I have aws_s3_bucket defined
-    When it contains acl
-    Then its value must match the "\${var.s3_bucket_acl}" regex
+    When it contains <key>
+    Then its value must match the "<value>" regex
+
+    Examples:
+    | key | value |
+    | acl | \${var.s3_bucket_acl} |
 
 Scenario: S3 should follow naming pattern
     Given I have aws_s3_bucket defined
-    When it contains s3_bucket_name
+    When it contains bucket
     Then its value must match the "\${var.environment}-.*" regex
