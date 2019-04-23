@@ -1,5 +1,10 @@
 # spring-localstack
 
+## About
+This project is a working example built with `kotlin` + `spring framework` on how to use `localstack` for testing aws cloud environment.
+
+Also it makes use of `terraform` to automate the creation of the cloud infrastructure, and `terraform-compliance` to ensure terraform is tested following a BDD strategy.
+
 ## Stack used
 
 <img src="./img/kotlin-logo.png" alt="kotlin" width="200"/>
