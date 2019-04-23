@@ -1,5 +1,18 @@
 # spring-localstack
 
+## Stack used
+
+<img src="./img/kotlin-logo.png" alt="kotlin" width="200"/>
+
+<img src="./img/spring-logo.png" alt="spring" width="200"/>
+
+<img src="./img/localstack.png" alt="localstack" width="200"/>
+
+<img src="./img/terraform.png" alt="terraform" width="200"/>
+
+<img src="./img/terraform-compliance.png" alt="terraform" width="300"/>
+
+
 ## Localstack
 
 Running localstack:
