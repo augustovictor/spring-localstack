@@ -20,9 +20,9 @@ terraform plan -var-file=dev/terraform.tfvars
 ```
 
 ## Terraform compliance
-Running container:
+Running tests:
 ```sh
-
+docker run --rm -v $PWD:/target -i -t eerkunt/terraform-compliance -f terraform/test -t terraform-modules/s3
 ```
 
 ## API calls
