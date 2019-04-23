@@ -1,10 +1,31 @@
 # spring-localstack
 
+## Localstack
+
 Running localstack:
 ```sh
 SERVICES=s3 docker-compose -f docker-compose.localstack.yml up -d
 ```
 
+## Terraform:
+
+Init:
+```sh
+terraform init
+```
+
+Plan:
+```sh
+terraform plan -var-file=dev/terraform.tfvars
+```
+
+## Terraform compliance
+Running container:
+```sh
+
+```
+
+## API calls
 
 Create bucket:
 ```sh
@@ -31,3 +52,4 @@ Download object from bucket:
 GET / HTTP/1.1
 Host: localhost:9090/download?bucket-name=created-bucket-api&object-key=application.properties
 ```
+
