@@ -1,5 +1,7 @@
-Feature: S3 buckets should have acl set as private
-    In order to improve security
+Feature: S3 buckets should be properly formatted
+    In order to keep conceptual integrity
+    As engineers
+    We'll enforce proper naming strategies
 
 Scenario: S3 acl
     Given I have aws_s3_bucket defined
