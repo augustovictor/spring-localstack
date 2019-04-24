@@ -4,6 +4,7 @@ variable "s3_bucket_name" {
 
 variable "s3_endpoint" {
   description = "S3 Endpoint"
+  default = ""
 }
 
 variable "environment" {

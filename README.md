@@ -40,6 +40,7 @@ terraform init
 Plan:
 ```sh
 terraform plan -var-file=dev/terraform.tfvars
+aws-vault --debug exec <PROFILE> -- terraform plan -var-file=dev/terraform.tfvars
 ```
 
 ## Terraform compliance

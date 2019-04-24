@@ -4,6 +4,6 @@ provider "aws" {
   s3_force_path_style = true
 
   endpoints {
-    s3 = "${var.s3_endpoint}"
+    s3 = "${var.environment == "development" ? var.s3_endpoint : ""}"
   }
 }
