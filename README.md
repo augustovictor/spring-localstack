@@ -22,11 +22,11 @@ Also it makes use of `terraform` to automate the creation of the cloud infrastru
 
 Running localstack:
 ```sh
-SERVICES=s3 docker-compose -f docker-compose.localstack.yml up -d
+SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
 ```
 On mac:
 ```sh
-TMPDIR=/private$TMPDIR SERVICES=s3 docker-compose -f docker-compose.localstack.yml up -d
+TMPDIR=/private$TMPDIR SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
 ```
 
 
@@ -77,3 +77,10 @@ GET / HTTP/1.1
 Host: localhost:9090/download?bucket-name=created-bucket-api&object-key=application.properties
 ```
 
+## Steps
+
+## Known Issues
+- Not possible to use 1 `terraform.tfstate` for multiple environments. The `terraform.tfstate` file will be overwritten;
+- When using `remote state` you should first create the `bucket` and `dynamodb` table for locking;
+- Names different from [aws services](https://docs.aws.amazon.com/cli/latest/reference/#available-services);
+- Different credentials used when `terraform init` for the `remote-state` and `dev/staging` env;

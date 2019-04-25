@@ -7,6 +7,11 @@ variable "s3_endpoint" {
   default = ""
 }
 
+variable "dynamodb_endpoint" {
+  description = "DynamoDb Endpoint"
+  default = ""
+}
+
 variable "environment" {
   description = "Environment"
 }
