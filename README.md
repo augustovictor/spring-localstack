@@ -11,7 +11,7 @@ Also it makes use of `terraform` to automate the creation of the cloud infrastru
 
 <img src="./img/spring-logo.png" alt="spring" width="200"/>
 
-<img src="./img/localstack.png" alt="localstack" width="200"/>
+<img src="./img/localstack.png" alt="localstack" width="200"/> [LocalStack](https://github.com/localstack/localstack)
 
 <img src="./img/terraform.png" alt="terraform" width="200"/>
 
@@ -22,25 +22,44 @@ Also it makes use of `terraform` to automate the creation of the cloud infrastru
 
 Running localstack:
 ```sh
-SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
+PORT_WEB_UI=9000 SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
 ```
 On mac:
 ```sh
-TMPDIR=/private$TMPDIR SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
+TMPDIR=/private$TMPDIR PORT_WEB_UI=9000 SERVICES=s3,dynamodb docker-compose -f docker-compose.localstack.yml up -d
 ```
 
 
 ## Terraform:
 
+#### Create initial structure (s3 Bucket for remote state + dynamodb Table for state locking)
 Init:
-```sh
-terraform init
+```bash
+cd dev/remote-state
+aws-vault --debug exec scd-stg -- terraform init
 ```
 
 Plan:
-```sh
-terraform plan -var-file=dev/terraform.tfvars
-aws-vault --debug exec <PROFILE> -- terraform plan -var-file=dev/terraform.tfvars
+```bash
+aws-vault --debug exec scd-stg -- terraform plan -out execution-plan.tfplan
+```
+
+Apply:
+```bash
+aws-vault --debug exec scd-stg -- terraform apply execution-plan.tfplan
+```
+
+#### Create initial infra (s3 Bucket for application use)
+Init:
+```bash
+# spring-localstack/terraform
+aws-vault --debug exec scd-stg -- terraform init -backend-config=dev/backend.conf
+```
+
+Plan:
+```bash
+aws-vault --debug exec scd-stg -- terraform plan -out execution-plan.tfplan -var-file=dev/terraform.tfvars
+aws-vault --debug exec scd-stg -- terraform plan -var-file=dev/terraform.tfvars
 ```
 
 ## Terraform compliance
