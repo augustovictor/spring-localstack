@@ -36,3 +36,4 @@ gradlew.bat
 ### Terraform ###
 .terraform
 *.tfstate
+*.tfplan
