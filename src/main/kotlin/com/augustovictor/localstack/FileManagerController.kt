@@ -18,11 +18,11 @@ class FileManagerController(private val amazonS3: AmazonS3) {
 
     @PostMapping("/create-bucket")
     fun createBucket(@RequestParam("bucket-name") bucketName: String): String? {
-        try {
+        return try {
             amazonS3.createBucket(bucketName)
-            return null
+            null
         } catch (e: Exception) {
-            return e.toString()
+            e.toString()
         }
     }
 
