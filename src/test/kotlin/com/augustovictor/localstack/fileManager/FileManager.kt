@@ -21,34 +21,36 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class FileManagerTest : BaseIntegrationTest() {
 
+    @LocalServerPort
+    private lateinit var serverPort: Number
+
     @Autowired
     private lateinit var testRestTemplate: TestRestTemplate
 
     @Autowired
     private lateinit var s3Config: S3Config
 
-    @LocalServerPort
-    private lateinit var serverPort: Number
-
     private val bucketName = "my-custom-bucket-api"
+    private lateinit var BASE_URL: String
 
     @Before
     fun setUp() {
-        s3Config.amazonS3().createBucket(bucketName)
-    }
-
-    @After
-    fun tearDown() {
-        s3Config.amazonS3().deleteBucket(bucketName)
+        BASE_URL = "http://localhost:$serverPort"
     }
 
     @Test
-    fun `should list objects from bucket`() {
-        val uri = "http://localhost:$serverPort/list-objects-bucket?bucket-name=$bucketName"
-        val response = testRestTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, String::class.java)
+    fun `should create bucket with given name`() {
+        try {
+            val uriCreateBucket = "$BASE_URL/create-bucket?bucket-name=$bucketName"
+            testRestTemplate.exchange(uriCreateBucket, HttpMethod.POST, HttpEntity.EMPTY, String::class.java)
 
-        val expectedJson = """{ "bucketName": "$bucketName" }"""
+            val urilistObjects = "$BASE_URL/list-objects-bucket?bucket-name=$bucketName"
+            val response = testRestTemplate.exchange(urilistObjects, HttpMethod.GET, HttpEntity.EMPTY, String::class.java)
 
-        JSONAssert.assertEquals(expectedJson, response.body, JSONCompareMode.LENIENT)
+            val expectedJson = """{ "bucketName": "$bucketName-WRONG" }"""
+            JSONAssert.assertEquals(expectedJson, response.body, JSONCompareMode.LENIENT)
+        } finally {
+            s3Config.amazonS3().deleteBucket(bucketName)
+        }
     }
 }

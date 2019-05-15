@@ -16,13 +16,11 @@ abstract class BaseIntegrationTest {
         val localStackContainer = LocalStackContainer().withServices(S3).apply { start() }
     }
 
-
     object Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             val values = TestPropertyValues.of("aws.s3.uri=${localStackContainer.getEndpointConfiguration(S3).serviceEndpoint}")
 
             values.applyTo(applicationContext)
         }
-
     }
 }
